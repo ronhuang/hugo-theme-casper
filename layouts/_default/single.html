@@ -1,4 +1,9 @@
 {{ partial "header.html" . }}
+<body class="post-template nav-closed">
+{{ partial "navigation.html" . }}
+<div class="site-wrapper">
+
+
 {{ $baseurl := .Site.BaseURL }}
 
 {{if .Params.image}}
@@ -69,4 +74,10 @@
 </article>
 
 </main>
+
+
 {{ partial "footer.html" . }}
+</div> <!-- site-wrapper -->
+{{ partial "scripts.html" . }}
+</body>
+</html>

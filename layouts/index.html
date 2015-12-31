@@ -1,4 +1,27 @@
+{{ if not ($.Scratch.Get "paginatedSections") }}
+    {{ if isset .Site.Params "paginatedSections" }}
+        {{ $.Scratch.Set "paginatedSections" .Site.Params.paginatedSections }}
+    {{ else }}
+        {{ $.Scratch.Set "paginatedSections" "post" }}
+    {{ end }}
+{{ end }}
+
+{{ $list := where .Data.Pages "Section" "in" ($.Scratch.Get "paginatedSections") }}
+{{ $list := where $list "Section" "!=" "" }}
+{{ $paginator := .Paginate ( $list ) }}
+
+
 {{ partial "header.html" . }}
+{{ if and .IsHome (not $paginator.HasPrev) }}
+<body class="home-template nav-closed">
+{{ else if and .IsHome $paginator.HasPrev }}
+<body class="archive-template nav-closed">
+{{ else }}
+<body class="nav-closed">
+{{ end }}
+{{ partial "navigation.html" . }}
+<div class="site-wrapper">
+
 
 {{if .Site.Params.cover}}
 <header class="main-header " style="background-image: url({{.Site.BaseURL}}{{.Site.Params.cover}})">
@@ -83,23 +106,11 @@
         {{end}}
     {{ end }}
 
-    {{ if not ($.Scratch.Get "paginatedSections") }}
-        {{ if isset .Site.Params "paginatedSections" }}
-            {{ $.Scratch.Set "paginatedSections" .Site.Params.paginatedSections }}
-        {{ else }}
-            {{ $.Scratch.Set "paginatedSections" "post" }}
-        {{ end }}
-    {{ end }}
-    
-    {{ $list := where .Data.Pages "Section" "in" ($.Scratch.Get "paginatedSections") }}
-    {{ $list := where $list "Section" "!=" "" }}
-    {{ $paginator := .Paginate ( $list ) }}
-
     <div class="extra-pagination inner">
         {{ partial "pagination.html" $paginator }}
     </div>
 
-    {{ range $index, $page := $paginator.Pages }}
+    {{ range $paginator.Pages }}
         {{ partial "li.html" . }}
     {{ end }}
 
@@ -107,4 +118,9 @@
 
 </main>
 
+
 {{ partial "footer.html" . }}
+</div> <!-- site-wrapper -->
+{{ partial "scripts.html" . }}
+</body>
+</html>

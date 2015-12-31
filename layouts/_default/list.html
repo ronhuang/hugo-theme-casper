@@ -1,4 +1,16 @@
+{{ $paginator := .Paginator }}
+
+
 {{ partial "header.html" . }}
+{{ if and $paginator.HasPrev }}
+<body class="archive-template nav-closed">
+{{ else }}
+<body class="nav-closed">
+{{ end }}
+{{ partial "navigation.html" . }}
+<div class="site-wrapper">
+
+
 {{ $baseurl := .Site.BaseURL }}
 
 {{if .Params.cover}}
@@ -35,8 +47,6 @@
 </header>
 
 <main class="content" role="main">
-    {{ $paginator := .Paginator }}
-
 	<div class="extra-pagination inner">
     {{ partial "pagination.html" $paginator }}
 	</div>
@@ -51,3 +61,7 @@
 
 
 {{ partial "footer.html" . }}
+</div> <!-- site-wrapper -->
+{{ partial "scripts.html" . }}
+</body>
+</html>

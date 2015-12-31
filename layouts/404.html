@@ -1,4 +1,8 @@
 {{ partial "header.html" . }}
+<body class="nav-closed">
+{{ partial "navigation.html" . }}
+<div class="site-wrapper">
+
 
 {{if .Site.Params.cover}}
 <header class="main-header " style="background-image: url({{.Site.BaseURL}}{{.Site.Params.cover}})">
@@ -61,3 +65,7 @@
 
 
 {{ partial "footer.html" . }}
+</div> <!-- site-wrapper -->
+{{ partial "scripts.html" . }}
+</body>
+</html>
