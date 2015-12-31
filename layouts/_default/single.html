@@ -63,7 +63,7 @@
 
     {{ partial "share.html" . }}
 
-    {{ partial "disqus.html" . }}
+    {{ if ne .Params.comments false}}{{ template "_internal/disqus.html" . }}{{ end }}
 
   </footer>
 </article>
